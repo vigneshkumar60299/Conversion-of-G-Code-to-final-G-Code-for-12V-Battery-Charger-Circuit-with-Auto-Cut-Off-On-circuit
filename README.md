@@ -41,7 +41,9 @@ By systematically adding these codes at appropriate sections, the CNC controller
 
 # EXPECTED OUTPUT:
 ## Auto leveller
-(Engraving G-Code - Template for 12V Battery Charger PCB)
+
+### Engraving G Code  
+''' (Engraving G-Code - Template for 12V Battery Charger PCB)
 (Units: mm | Absolute coords: G90 | Mach3-compatible)
 G21         (set units to mm)  
 G90         (absolute positioning)  
@@ -96,12 +98,261 @@ G0 Z5
 (--- End of engraving section ---)  
 M5          (spindle stop)  
 G0 X0 Y0    (move to home / safe XY)  
-M30         (program end and rewind)  
+M30         (program end and rewind)  '''
 
-### Engraving G Code  
 ## Final G Code  
+'''(FINAL G-CODE FOR 12V BATTERY CHARGER CIRCUIT)
+(With Auto-Levelled Engraving, Drilling, and Cutting Sections)
+(Generated for Mach3 Controller)
+
+G21         (Units in millimeters)
+G90         (Absolute positioning)
+G17         (XY plane selection)
+G94         (Feedrate per minute mode)
+G54         (Work coordinate system)
+G40         (Cancel cutter radius compensation)
+G49         (Cancel tool length offset)
+G80         (Cancel canned cycle)
+G0 Z5.000   (Safe height before starting)
+
+(--------------------)
+(--- ENGRAVING ---)
+(--------------------)
+(T1 - Engraving bit 0.2mm)
+M6 T1        (Select tool 1)
+S12000 M3    (Start spindle clockwise at 12000 RPM)
+G4 P2        (Dwell 2 sec to stabilize spindle)
+G0 X0 Y0
+G0 Z5.000
+
+(--- Start Engraving ---)
+(Engraving traces with AutoLeveller Z correction)
+G0 X10.000 Y10.000
+G1 Z-0.100 F150.0
+G1 X40.000 Y10.000 F300.0
+G1 X40.000 Y20.000
+G1 X10.000 Y20.000
+G1 X10.000 Y10.000
+G0 Z5.000
+
+(Example trace segment)
+G0 X25.000 Y25.000
+G1 Z-0.100 F150.0
+G1 X30.000 Y25.000 F300.0
+G1 X30.000 Y30.000
+G1 X25.000 Y30.000
+G1 X25.000 Y25.000
+G0 Z5.000
+
+(End engraving)
+M5
+G0 X0 Y0 Z5.000
+M01     (Optional Stop - Confirm to change tool)
+
+(--------------------)
+(--- DRILLING ---)
+(--------------------)
+(T2 - Drill bit 0.8mm)
+M6 T2
+S10000 M3
+G4 P2
+G0 Z5.000
+G0 X20.000 Y15.000
+G1 Z-1.600 F200.0
+G0 Z5.000
+G0 X50.000 Y25.000
+G1 Z-1.600 F200.0
+G0 Z5.000
+G0 X70.000 Y45.000
+G1 Z-1.600 F200.0
+G0 Z5.000
+M5
+G0 X0 Y0 Z5.000
+M01
+
+(--------------------)
+(--- BOARD OUTLINE CUTTING ---)
+(--------------------)
+(T3 - End mill 1.0mm)
+M6 T3
+S8000 M3
+G4 P2
+G0 X0 Y0
+G0 Z5.000
+G0 X5.000 Y5.000
+G1 Z-0.200 F200.0
+G1 X95.000 Y5.000 F400.0
+G1 X95.000 Y65.000
+G1 X5.000 Y65.000
+G1 X5.000 Y5.000
+(Second pass - deeper cut)
+G1 Z-0.400 F200.0
+G1 X95.000 Y5.000 F400.0
+G1 X95.000 Y65.000
+G1 X5.000 Y65.000
+G1 X5.000 Y5.000
+G0 Z5.000
+
+(--------------------)
+(--- END OF JOB ---)
+(--------------------)
+M5          (Spindle stop)
+G0 X0 Y0 Z5.000
+M30         (Program end and rewind)
+%'''
+
 ### Engraving G Code
+'''(Engraving G-Code - 12V Battery Charger Circuit)
+(Use with Mach3 or GRBL)
+G21        (Units in millimeters)
+G90        (Absolute positioning)
+G17        (XY plane)
+G54
+G40 G49 G80
+G94
+G0 Z5.000  (Safe height)
+
+(T1 - Engraving Bit 0.2mm)
+M6 T1
+S12000 M3      (Spindle ON clockwise)
+G4 P2          (Dwell 2 seconds)
+
+(--- Start Engraving Paths ---)
+G0 X10.000 Y10.000
+G1 Z-0.100 F150.0
+G1 X40.000 Y10.000 F300.0
+G1 X40.000 Y20.000
+G1 X10.000 Y20.000
+G1 X10.000 Y10.000
+G0 Z5.000
+
+G0 X25.000 Y25.000
+G1 Z-0.100 F150.0
+G1 X30.000 Y25.000 F300.0
+G1 X30.000 Y30.000
+G1 X25.000 Y30.000
+G1 X25.000 Y25.000
+G0 Z5.000
+
+G0 X50.000 Y15.000
+G1 Z-0.100 F150.0
+G1 X60.000 Y15.000 F300.0
+G1 X60.000 Y25.000
+G1 X50.000 Y25.000
+G1 X50.000 Y15.000
+G0 Z5.000
+
+(Example auto-leveller correction)
+G1 X55.000 Y20.000 Z-0.095 F150.0
+G1 X65.000 Y20.000 Z-0.102
+G1 X65.000 Y30.000 Z-0.099
+G1 X55.000 Y30.000 Z-0.100
+G1 X55.000 Y20.000 Z-0.098
+G0 Z5.000
+
+(End engraving)
+M5          (Stop spindle)
+G0 X0 Y0 Z5.000
+M30         (End and rewind)
+%'''
+
 ### Drill G Code
+'''(Drill G-Code - 12V Battery Charger Circuit)
+(Use with Mach3 or GRBL)
+G21          (Units in millimeters)
+G90          (Absolute positioning)
+G17
+G54
+G40 G49 G80
+G94
+G0 Z5.000    (Safe height)
+
+(T2 - Drill Bit 0.8mm)
+M6 T2
+S10000 M3    (Spindle ON clockwise)
+G4 P2        (Dwell for 2 seconds)
+
+(--- Start Drilling Holes ---)
+
+G0 X12.000 Y12.000
+G81 X12.000 Y12.000 Z-1.800 R1.000 F200.0
+G80
+
+G0 X20.000 Y15.000
+G81 X20.000 Y15.000 Z-1.800 R1.000 F200.0
+G80
+
+G0 X30.000 Y18.000
+G81 X30.000 Y18.000 Z-1.800 R1.000 F200.0
+G80
+
+G0 X35.000 Y25.000
+G81 X35.000 Y25.000 Z-1.800 R1.000 F200.0
+G80
+
+G0 X45.000 Y28.000
+G81 X45.000 Y28.000 Z-1.800 R1.000 F200.0
+G80
+
+G0 X55.000 Y20.000
+G81 X55.000 Y20.000 Z-1.800 R1.000 F200.0
+G80
+
+G0 X65.000 Y15.000
+G81 X65.000 Y15.000 Z-1.800 R1.000 F200.0
+G80
+
+(--- End Drilling ---)
+M5           (Spindle stop)
+G0 Z5.000
+G0 X0 Y0
+M30          (End and rewind)
+%'''
+
 ### Cut G Code
+'''(Cut G-Code - 12V Battery Charger Circuit)
+(Use with Mach3 or GRBL)
+G21          (Units in millimeters)
+G90          (Absolute positioning)
+G17
+G54
+G40 G49 G80
+G94
+G0 Z5.000    (Safe height)
+
+(T3 - Cutter Bit 1.0mm or 1.5mm)
+M6 T3
+S12000 M3    (Spindle ON clockwise)
+G4 P2        (Dwell 2 seconds)
+
+(--- Start PCB Outline Cutting ---)
+
+G0 X5.000 Y5.000
+G1 Z-0.200 F150.0
+G1 X75.000 Y5.000 F400.0
+G1 Z-0.400
+G1 X75.000 Y55.000
+G1 Z-0.600
+G1 X5.000 Y55.000
+G1 Z-0.800
+G1 X5.000 Y5.000
+G0 Z5.000
+
+(Second pass for clean edge)
+G0 X5.000 Y5.000
+G1 Z-1.600 F150.0
+G1 X75.000 Y5.000 F400.0
+G1 X75.000 Y55.000
+G1 X5.000 Y55.000
+G1 X5.000 Y5.000
+G0 Z5.000
+
+(--- Cutout complete ---)
+M5           (Spindle stop)
+G0 Z5.000
+G0 X0 Y0
+M30          (End of program)
+%'''
+
 # RESULT:
 Thus, the G code of 12V-Battery-Charger-Circuit-with-Auto-Cut-Off-On-circuitt were successfully converted into final CNC G-Code for accurate and high-quality PCB engraving, drilling, and cutting using the CNC machine.
