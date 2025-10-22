@@ -42,8 +42,9 @@ By systematically adding these codes at appropriate sections, the CNC controller
 # EXPECTED OUTPUT:
 ## Auto leveller
 
-### Engraving G Code  
-``` (Engraving G-Code - Template for 12V Battery Charger PCB)
+### Engraving G Code 
+```
+ (Engraving G-Code - Template for 12V Battery Charger PCB)
 (Units: mm | Absolute coords: G90 | Mach3-compatible)
 G21         (set units to mm)  
 G90         (absolute positioning)  
@@ -101,8 +102,9 @@ G0 X0 Y0    (move to home / safe XY)
 M30         (program end and rewind)  '''
 ```
 
-## Final G Code  
-```(FINAL G-CODE FOR 12V BATTERY CHARGER CIRCUIT)
+## Final G Code 
+```
+(FINAL G-CODE FOR 12V BATTERY CHARGER CIRCUIT)
 (With Auto-Levelled Engraving, Drilling, and Cutting Sections)
 (Generated for Mach3 Controller)
 
@@ -204,7 +206,8 @@ M30         (Program end and rewind)
 ```
 
 ### Engraving G Code
-```(Engraving G-Code - 12V Battery Charger Circuit)
+```
+(Engraving G-Code - 12V Battery Charger Circuit)
 (Use with Mach3 or GRBL)
 G21        (Units in millimeters)
 G90        (Absolute positioning)
@@ -260,7 +263,8 @@ M30         (End and rewind)
 ```
 
 ### Drill G Code
-```(Drill G-Code - 12V Battery Charger Circuit)
+```
+(Drill G-Code - 12V Battery Charger Circuit)
 (Use with Mach3 or GRBL)
 G21          (Units in millimeters)
 G90          (Absolute positioning)
@@ -314,7 +318,8 @@ M30          (End and rewind)
 ```
 
 ### Cut G Code
-```(Cut G-Code - 12V Battery Charger Circuit)
+```
+(Cut G-Code - 12V Battery Charger Circuit)
 (Use with Mach3 or GRBL)
 G21          (Units in millimeters)
 G90          (Absolute positioning)
