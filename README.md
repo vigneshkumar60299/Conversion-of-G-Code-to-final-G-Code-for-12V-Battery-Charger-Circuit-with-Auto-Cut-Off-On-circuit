@@ -41,8 +41,65 @@ By systematically adding these codes at appropriate sections, the CNC controller
 
 # EXPECTED OUTPUT:
 ## Auto leveller
-### Engraving G Code
-## Final G Code
+(Engraving G-Code - Template for 12V Battery Charger PCB)
+(Units: mm | Absolute coords: G90 | Mach3-compatible)
+G21         (set units to mm)  
+G90         (absolute positioning)  
+G17         (XY plane)  
+G94         (feed per minute)  
+
+(--- Tool and spindle setup ---)  
+T1 M6       (select tool 1 and automatic tool change)  
+S12000 M3   (spindle on clockwise at 12000 rpm)  
+G0 Z5       (move to safe Z)   
+
+(--- Home / move to start area ---)  
+G0 X10 Y10  (rapid to start XY - adjust to your board origin)  
+G0 Z1       (rapid to near-surface safe height)  
+
+(--- Engraving pass 1: plunge to engraving depth ---)  
+G1 Z-0.10 F200   (plunge to -0.10 mm at 200 mm/min)   (SET ENGRAVING DEPTH)  
+(Follow trace 1)  
+G1 X30.00 Y10.00 F300   (cut along trace)   
+G1 X40.00 Y20.00  
+G1 X50.00 Y40.00  
+
+(Arc example: milled pad edge or rounded corner)  
+G2 X60.00 Y45.00 I5.00 J0.00 F300   (CW arc: end X60 Y45 center offset I5 J0)  
+
+(Trace 2)  
+G1 X70.00 Y60.00   
+G1 X90.00 Y60.00  
+
+(Small isolated pocket cut around a pad—spiral approximation)  
+( Spiral: multiple concentric passes -- here shown as two simple offset passes )  
+G0 Z1  
+G0 X45.00 Y30.00  
+G1 Z-0.10 F200  
+G1 X46.00 Y30.00 F200  
+G1 X46.00 Y31.00  
+G1 X45.00 Y31.00   
+G1 X45.00 Y30.00  
+
+(--- Retract after engraving pass ---)  
+G0 Z5       (raise to safe height)  
+
+(--- If you want a second, deeper finishing pass, re-plunge here ---)  
+( Example: finishing pass at -0.12 mm )  
+G0 X10 Y10  
+G1 Z-0.12 F200  
+G1 X30.00 Y10.00 F300  
+G1 X40.00 Y20.00  
+G1 X50.00 Y40.00  
+G0 Z5  
+
+(--- End of engraving section ---)  
+M5          (spindle stop)  
+G0 X0 Y0    (move to home / safe XY)  
+M30         (program end and rewind)  
+
+### Engraving G Code  
+## Final G Code  
 ### Engraving G Code
 ### Drill G Code
 ### Cut G Code
